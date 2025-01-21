@@ -18,12 +18,12 @@ const Login = () => {
   
       localStorage.setItem('authToken', token);
       localStorage.setItem('authUser', user.id);
-  
+      localStorage.setItem('email',user.email);  
+
       // Store the username only if it exists
       if (user.username) {
         localStorage.setItem('username', user.username);
       }
-  
       // Redirect based on the presence of a username
       if (needsUsername) {
         navigate('/set-username');
