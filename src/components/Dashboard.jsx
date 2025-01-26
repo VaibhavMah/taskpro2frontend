@@ -4,7 +4,6 @@ import { NavLink, Outlet } from 'react-router-dom';
 const Dashboard = () => {
   const username = localStorage.getItem('username') || 'User';
   const email = localStorage.getItem('email') || 'example@example.com';
-
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   const toggleProfileDropdown = () => {
@@ -22,35 +21,54 @@ const Dashboard = () => {
   return (
     <div>
       {/* Navbar */}
-      <nav style={styles.navbar}>
-        <div style={styles.left}>
-          <NavLink to="/dashboard/your-tasks" style={styles.navLink}>
+      <nav className="flex justify-between items-center px-6 py-4 bg-gray-100 border-b">
+        <div className="flex gap-4">
+          <NavLink
+            to="/dashboard/your-tasks"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
             Your Tasks
           </NavLink>
-          <NavLink to="/dashboard/done-tasks" style={styles.navLink}>
+          <NavLink
+            to="/dashboard/done-tasks"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
             Done Tasks
           </NavLink>
-          <NavLink to="/dashboard/add-task" style={styles.navLink}>
+          <NavLink
+            to="/dashboard/add-task"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
             Add New Tasks
           </NavLink>
-          <NavLink to="/dashboard/all-tasks" style={styles.navLink}>
+          <NavLink
+            to="/dashboard/all-tasks"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
             All Tasks
           </NavLink>
         </div>
-        <div style={styles.right}>
+        <div className="relative flex items-center gap-4">
           <div
-            style={styles.profileIcon}
+            className="cursor-pointer text-lg"
             onClick={toggleProfileDropdown}
           >
             👤
           </div>
           {showProfileDropdown && (
-            <div style={styles.profileDropdown}>
-              <p><strong>Name:</strong> {username}</p>
-              <p><strong>Email:</strong> {email}</p>
+            <div className="absolute top-12 right-0 bg-white border rounded shadow-md p-4">
+              <p className="text-gray-700">
+                <strong>Name:</strong> {username}
+              </p>
+              <p className="text-gray-700">
+                <strong>Email:</strong> {email}
+              </p>
             </div>
           )}
-          <button onClick={handleLogout} style={styles.logoutButton}>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          >
             Log Out
           </button>
         </div>
@@ -60,56 +78,6 @@ const Dashboard = () => {
       <Outlet />
     </div>
   );
-};
-
-const styles = {
-  navbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '10px 20px',
-    backgroundColor: '#f4f4f4',
-    borderBottom: '1px solid #ccc',
-  },
-  left: {
-    display: 'flex',
-    gap: '15px',
-  },
-  navLink: {
-    textDecoration: 'none',
-    padding: '10px 15px',
-    backgroundColor: '#007BFF',
-    color: '#fff',
-    borderRadius: '5px',
-  },
-  right: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    position: 'relative',
-  },
-  profileIcon: {
-    cursor: 'pointer',
-    fontSize: '20px',
-  },
-  profileDropdown: {
-    position: 'absolute',
-    top: '40px',
-    right: '0',
-    backgroundColor: '#fff',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    zIndex: 1000,
-  },
-  logoutButton: {
-    padding: '10px',
-    backgroundColor: '#FF4D4D',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-  },
 };
 
 export default Dashboard;

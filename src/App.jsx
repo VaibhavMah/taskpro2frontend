@@ -1,39 +1,38 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login'; // Import the Login component
-import Dashboard from './components/Dashboard'; // Import the Dashboard component
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
-import Register from './components/Register'
-import SetUsername from './components/SetUsername';
-import AddTask from './components/AddTask';
-import AllTasks from './components/AllTasks';
-import YourTasks from './components/YourTasks';
-import DoneTasks from './components/DoneTasks';
 
+const Login = lazy(() => import('./components/Login'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
+const Register = lazy(() => import('./components/Register'));
+const VerifyCode = lazy(() => import('./components/VerifyCode'));
+const SetUsername = lazy(() => import('./components/SetUsername'));
+const AddTask = lazy(() => import('./components/AddTask'));
+const AllTasks = lazy(() => import('./components/AllTasks'));
+const YourTasks = lazy(() => import('./components/YourTasks'));
+const DoneTasks = lazy(() => import('./components/DoneTasks'));
+const LandingPage = lazy(() => import('./components/LandingPage'));
 
 function App() {
   return (
     <Router>
-      <Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-code" element={<VerifyCode/>}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/set-username" element={<ProtectedRoute><SetUsername /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
+            <Route path="add-task" element={<AddTask />} />
+            <Route path="all-tasks" element={<AllTasks />} />
+            <Route path="your-tasks" element={<YourTasks />} />
+            <Route path="done-tasks" element={<DoneTasks />} />
+          </Route>
 
-        <Route path='register' element={<Register/>}/>
-
-        {/* Public Route */}
-        <Route path="/login" element={<Login />} />
-        {/* Protected Route */}
-        <Route path ='/set-username'element={<ProtectedRoute><SetUsername/></ProtectedRoute>}/>
-
-        <Route 
-          path="/dashboard" 
-          element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> 
-
-        <Route path="dashboard/add-task" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
-        <Route path='dashboard/all-tasks' element={<ProtectedRoute><AllTasks/></ProtectedRoute>}/>
-        <Route path='/dashboard/your-tasks' element={<ProtectedRoute><YourTasks/></ProtectedRoute>}/>
-        <Route path='/dashboard/done-tasks' element={<ProtectedRoute><DoneTasks/></ProtectedRoute>}/>
-
-        
-      </Routes>
+          <Route path="*" element={<div>404 - Page Not Found</div>} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }

@@ -37,29 +37,47 @@ const YourTasks = () => {
     } catch (err) {
       console.error('Error updating task status:', err);
       // Rollback the UI if the API call fails
-      // Optionally refetch tasks or handle this gracefully
     }
   };
 
   return (
-    <div>
-      <h1>Your Tasks</h1>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">Your Tasks</h1>
       {loading ? (
-        <p>Loading tasks...</p>
+        <p className="text-gray-600">Loading tasks...</p>
       ) : tasks.length > 0 ? (
-        <ul>
+        <ul className="space-y-4">
           {tasks.map((task) => (
-            <li key={task._id}>
-              <strong>{task.title}</strong> - Due: {new Date(task.dueDate).toLocaleDateString()}
-              <br />
-              Priority: {task.priority}
-              Created on: {task.createdAt ? new Date(task.createdAt).toLocaleDateString() : 'N/A'} 
-              <button onClick={() => toggleTaskStatus(task._id)}>Mark as Done</button>
+            <li
+              key={task._id}
+              className="p-4 bg-white shadow rounded-lg border border-gray-200"
+            >
+              <div className="mb-2">
+                <strong className="text-lg font-semibold text-gray-800">{task.title}</strong>
+              </div>
+              <p className="text-sm text-gray-600">
+                <strong>Due:</strong> {new Date(task.dueDate).toLocaleDateString()}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Priority:</strong> {task.priority}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Created on:</strong>{' '}
+                {task.createdAt
+                  ? new Date(task.createdAt).toLocaleDateString()
+                  : 'N/A'}
+              </p>
+              <button
+                onClick={() => toggleTaskStatus(task._id)}
+                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Mark as Done
+              </button>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No tasks found.</p>
+        <p className="text-gray-600">No tasks found.</p>
       )}
     </div>
   );
