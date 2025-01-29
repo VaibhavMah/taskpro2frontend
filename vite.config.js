@@ -5,7 +5,11 @@ import { postcss } from 'tailwindcss';
 
 // https://vite.dev/config/
 export default defineConfig({
- 
+
+  build: {
+    sourcemap: false,  // Prevents exposing code in browser DevTools
+  },
+  
   plugins: [react()],
    css:{
      postcss: {
